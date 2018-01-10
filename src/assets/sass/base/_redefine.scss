@@ -1,0 +1,224 @@
+@charset "UTF-8";
+
+@import "../util/variables";
+
+/*
+==================================================
+
+    CSS File Name - _redefine.scss
+    Last-updated: 2016-12-02
+
+	+1: Formatting Reset
+	+2: Redefine
+
+==================================================
+*/
+
+/*--------------------------------------------------
+    +1: Formatting Reset
+==================================================*/
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+div,
+p,
+pre,
+address,
+blockquote,
+ul,
+ol,
+dl,
+dt,
+dd,
+form,
+fieldset {
+	display: block;
+	margin: 0;
+	padding: 0;
+	cursor: default;
+}
+
+strong,
+em {
+	font-weight: bold;
+}
+
+ol,
+ul {
+	list-style-type: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 12px;
+	font-weight: normal;
+}
+
+address,
+em {
+	font-style: normal;
+}
+
+img {
+	border: none;
+	vertical-align: bottom;
+}
+
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td,
+caption,
+col,
+colgroup {
+	text-align: inherit;
+	line-height: inherit;
+	font-size: 1em;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+thead {
+	display: table-header-group;
+}
+
+tbody {
+	display: table-row-group;
+}
+
+tfoot {
+	display: table-footer-group;
+}
+
+tr {
+	display: table-row;
+}
+
+th,
+td {
+	display: table-cell;
+}
+
+caption {
+	display: table-caption;
+}
+
+col {
+	display: table-column;
+}
+
+colgroup {
+	display: table-column-group;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="tel"],
+input[type="email"],
+select,
+textarea {
+	margin: 0;
+	padding: 0;
+	font-family: inherit;
+	font-weight: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	outline: 0;
+}
+
+button {
+	font-family: inherit;
+	font-weight: 300;
+	outline: none;
+	cursor: pointer;
+}
+
+::-ms-clear,
+::-ms-reveal {
+	display: none;
+	width: 0;
+	height: 0;
+}
+
+/*--------------------------------------------------
+    +2: Redefine
+==================================================*/
+
+html,
+body {
+    line-height: 1;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    background: $color-background;
+    color: $color-text;
+}
+
+/* Removes webkit border when the element is on focus */
+a,
+a:active,
+a:focus,
+button,
+button:active,
+input,
+input:focus,
+select,
+select:focus,
+textarea,
+textarea:focus {
+	outline: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+a {
+	text-decoration: none;
+}
+
+//
+// clearfix
+// -------------------------
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+// IE7
+// -------------------------
+
+// Hides from IE-mac
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
+
+// End hide from IE-mac
