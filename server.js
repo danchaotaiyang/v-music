@@ -4,31 +4,31 @@ let axios = require('axios');
 
 let app = express();
 app.all('*', (req, res, next) => {
-    res.headers('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By",' 3.2.1');
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
+
 router.get('/getDiscList', (req, res) => {
-    let url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg';
     axios
-        .get(url, {
+        .get('https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg', {
             headers: {
-                referer: 'https://c.y.qq.com',
+                referer: 'https://c.y.qq.com/',
                 host: 'c.y.qq.com'
             },
-            params: req.query,
-            format: 'json'
+            params: req.query
         })
         .then((response) => {
-            res.end(response.json);
+            res.json(response.data)
         })
-        .catch((err) => {
-            console.log(err);
+        .catch((e) => {
+            console.log(e)
         });
 });
+
 
 app.use('/api', router);
 
