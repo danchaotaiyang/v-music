@@ -15,7 +15,144 @@
     +1: Mixins
 ==================================================*/
 
+@mixin appearance($type: none) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+@mixin user-select($type) {
+    -webkit-user-select: $type;
+    -moz-user-select: $type;
+    -ms-user-select: $type;
+    user-select: $type;
+}
+
+@mixin box-shadow($val) {
+    -webkit-box-shadow: $val;
+    -moz-box-shadow: $val;
+    box-shadow: $val;
+}
+
+@mixin box-sizing($type) {
+    -webkit-box-sizing: $type;
+    -moz-box-sizing: $type;
+    box-sizing: $type;
+}
+
+@mixin background-size($size) {
+    -webkit-background-size: $size;
+    background-size: $size;
+}
+
+@mixin border-radius($size) {
+    -webkit-border-radius: $size;
+    -moz-border-radius: $size;
+    border-radius: $size;
+}
+
+@mixin animation($str) {
+    -webkit-animation: #{$str};
+    animation: #{$str};
+}
+
+@mixin transition($transition...) {
+    -webkit-transition: $transition;
+    -o-transition: $transition;
+    transition: $transition;
+}
+
+@mixin transform($tran) {
+    -webkit-transform: $tran;
+    -moz-transform: $tran;
+    -o-transform: $tran;
+    transform: $tran;
+}
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin toggle-arrow($dir, $size, $color) {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    @if $dir == down {
+        margin-top: -$size / 2;
+        border: {
+            width: $size;
+            style: solid;
+            color: transparent;
+            top: {
+                color: $color;
+            }
+            bottom: {
+                width: 0;
+            }
+        }
+    } @else if $dir == up {
+        margin-bottom: -$size / 2;
+        border: {
+            width: $size;
+            style: solid;
+            color: transparent;
+            top: {
+                width: 0;
+            }
+            bottom: {
+                color: $color;
+            }
+        }
+    } @else if $dir == left {
+        margin-right: -$size / 2;
+        border: {
+            width: $size;
+            style: solid;
+            color: transparent;
+            right: {
+                color: $color;
+            }
+            left: {
+                width: 0;
+            }
+        }
+    } @else if $dir == right {
+        margin-left: -$size / 2;
+        border: {
+            width: $size;
+            style: solid;
+            color: transparent;
+            right: {
+                width: 0;
+            }
+            left: {
+                color: $color;
+            }
+        }
+    }
+}
+
+
 @mixin background-image-png($path) {
     background-image: url($path + "@2x.png");
-
 }

@@ -1,4 +1,4 @@
-const origin = require('src/assets/js/jsonp');
+const origin = require('jsonp');
 
 const param = (data) => {
     let url = '';
@@ -16,7 +16,7 @@ const jsonp = (url, data, option) => {
             if (!err) {
                 resolve(data);
             } else {
-                reject(data);
+                reject(err);
             }
         });
     });
