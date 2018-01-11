@@ -1,14 +1,38 @@
 import jsonp from '@/assets/js/jsonp';
+import axios from 'axios';
 import {commonParams, options} from './config';
 
 export const getRecommend = () => {
     let url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg';
 
-    const data = Object.assign({}, commonParams, {
+    let data = Object.assign({}, commonParams, {
         platform: 'h5',
         uin: 0,
         needNewCode: 1
     });
 
     return jsonp(url, data, options);
+};
+
+export const getDiscList = () => {
+    let url = 'http://localhost:8090/api/getDiscList';
+    let data = Object.assign({}, commonParams, {
+        rnd: Math.random(),
+        hostUin: 0,
+        platform: 'yqq',
+        needNewCode: 0,
+        categoryId: 10000000,
+        sortId: 5,
+        sin: 0,
+        ein: 29,
+        format: 'json'
+    });
+    return axios
+        .get(url, {
+            params: data,
+            format: 'json'
+        })
+        .then((res) => {
+            return new Promise.resolve(res.data);
+        });
 };

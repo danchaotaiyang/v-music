@@ -96,6 +96,9 @@ export default {
                 this.slider.next(400);
             }, this.interval);
         }
+    },
+    destroyed() {
+        clearInterval(this.timer);
     }
 }
 </script>
