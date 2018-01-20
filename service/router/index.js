@@ -6,7 +6,7 @@ router.use((req, res, next) => {
     next();
 });
 router.get('/recommend', (req, res) => {
-    res.render('./index');
+    res.render('index');
 });
 
 module.exports = router;

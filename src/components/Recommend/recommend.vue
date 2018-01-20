@@ -13,7 +13,7 @@
                 <h1 class="list-title">热门歌单推荐</h1>
                 <ul>
                     <li v-for="disc in discList" class="item">
-                        <div class="icon"><img :src="disc.imgurl" width="60" height="60" alt=""></div>
+                        <div class="icon"><img v-lazy="disc.imgurl" width="60" height="60" alt=""></div>
                         <div class="text">
                             <h2 class="name" v-html="disc.creator.name"></h2>
                             <p class="desc" v-html="disc.dissname"></p>

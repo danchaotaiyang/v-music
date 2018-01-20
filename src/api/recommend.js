@@ -15,7 +15,7 @@ export const getRecommend = () => {
 };
 
 export const getDiscList = () => {
-    let url = 'http://localhost:8090/api/getDiscList';
+    let url = 'http://192.168.0.108:8090/api/getDiscList';
     let data = Object.assign({}, commonParams, {
         rnd: Math.random(),
         hostUin: 0,

@@ -10,7 +10,6 @@ app.use(express.static(path.resolve('dist')));
 const index = require('./router/index');
 const api = require('./router/api');
 
-
 app.use('/', index);
 app.use('/api', api);
 
