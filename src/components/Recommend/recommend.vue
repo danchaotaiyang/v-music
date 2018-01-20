@@ -1,22 +1,34 @@
 <template>
 <div class="recommend">
-    <div class="recommend-content">
-        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
-            <slider>
-                <div v-for="item in recommends">
-                    <a :href="item.linkUrl"><img :src="item.picUrl" alt=""></a>
-                </div>
-            </slider>
+    <scroll-view ref="scroll" class="recommend-content" :data="discList">
+        <div>
+            <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+                <slider>
+                    <div v-for="item in recommends">
+                        <a :href="item.linkUrl"><img @load="loadImage" :src="item.picUrl" alt=""></a>
+                    </div>
+                </slider>
+            </div>
+            <div class="recommend-list">
+                <h1 class="list-title">热门歌单推荐</h1>
+                <ul>
+                    <li v-for="disc in discList" class="item">
+                        <div class="icon"><img :src="disc.imgurl" width="60" height="60" alt=""></div>
+                        <div class="text">
+                            <h2 class="name" v-html="disc.creator.name"></h2>
+                            <p class="desc" v-html="disc.dissname"></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div class="recommend-list">
-            <h1 class="list-title">热门歌单推荐</h1>
-            <ul></ul>
-        </div>
-    </div>
+    </scroll-view>
 </div>
 </template>
 
 <script>
+import scrollView from '@/base/scroll/scrollView';
 import Slider from '@/base/slider/slider';
 import {getRecommend, getDiscList} from '@/api/recommend';
 import {ERR_OK} from '@/api/config';
@@ -25,14 +37,11 @@ export default {
     name: 'recommend',
     data() {
         return {
-            recommends: []
+            recommends: [],
+            discList: []
         };
     },
-    components: {Slider},
-    created() {
-        this._getRecommend();
-        this._getDiscList();
-    },
+    components: {scrollView, Slider},
     methods: {
         _getRecommend() {
             getRecommend()
@@ -46,10 +55,22 @@ export default {
             getDiscList()
                 .then((res) => {
                     if (res.code === ERR_OK) {
-                        console.log(res);
+                        this.discList = res.data.list;
                     }
                 });
+        },
+        loadImage() {
+            if (!this.checkLoaded) {
+                this.$refs.scroll.refresh();
+                this.checkLoaded = true;
+            }
         }
+    },
+    created() {
+        setTimeout(() => {
+            this._getRecommend();
+            this._getDiscList();
+        }, 2000);
     }
 }
 </script>

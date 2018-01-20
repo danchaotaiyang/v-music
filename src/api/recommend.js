@@ -24,13 +24,14 @@ export const getDiscList = () => {
         categoryId: 10000000,
         sortId: 5,
         sin: 0,
-        ein: 29
+        ein: 29,
+        format: 'json'
     });
     return axios
         .get(url, {
             params: data
         })
         .then((res) => {
-            return new Promise.resolve(res.data);
+            return res.data;
         });
 };

@@ -4,7 +4,7 @@
 
     CSS File Name - layout.scss
     Last-updated: 2017-03-02
-    
+
     +1: Utils
     +2: Base
     +3: Vendors
@@ -28,10 +28,7 @@
 /*--------------------------------------------------
     +4: Layout
 ==================================================*/
-@import "partial/_body";
 @import "partial/_header";
-@import "partial/_navigation";
-@import "partial/_mainBody";
 @import "partial/_footer";
 /*--------------------------------------------------
     +5: Vendors
