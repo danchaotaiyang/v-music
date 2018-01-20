@@ -20,7 +20,9 @@ export default {
     },
     components: {ListView},
     created() {
-        this._getSingerList();
+        setTimeout(() => {
+            this._getSingerList();
+        }, 2000);
     },
     methods: {
         _getSingerList() {
