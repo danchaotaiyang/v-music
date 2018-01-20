@@ -15,7 +15,6 @@ router.use((req, res, next) => {
     }
 });
 router.get('/getDiscList', (req, res) => {
-    console.log(1);
     axios
         .get('https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg', {
             headers: {
