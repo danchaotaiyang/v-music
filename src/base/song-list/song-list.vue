@@ -28,7 +28,6 @@ export default {
         selectItem(song, index) {
             getSongUrl(song.id)
                 .then((res) => {
-                    console.log(res);
                     if (res.code === ERR_OK) {
                         song.url = `http://dl.stream.qqmusic.qq.com/C400${song.id}.m4a?vkey=${res.data.items[0].vkey}&guid=1408057560&uin=0&fromtag=66`
                         this.$emit('select', song, index);
