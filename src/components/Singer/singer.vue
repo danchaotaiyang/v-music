@@ -1,6 +1,7 @@
 <template>
 <div class="singer">
-    <list-view :data="singers"></list-view>
+    <list-view :data="singers" @select="selectSinger"></list-view>
+    <router-view></router-view>
 </div>
 </template>
 
@@ -9,6 +10,9 @@ import {getSingerList} from '@/api/singer';
 import {ERR_OK} from '@/api/config';
 import Singer from '@/assets/js/singer';
 import ListView from '@/base/listview/listview';
+
+import {mapMutations} from 'vuex';
+
 const HOT_NAME = '热门';
 const HOT_SINGER_LENGTH = 10;
 
@@ -22,9 +26,18 @@ export default {
     created() {
         setTimeout(() => {
             this._getSingerList();
-        }, 2000);
+        }, 500);
     },
     methods: {
+        ...mapMutations({
+            setSinger: 'SET_SINGER'
+        }),
+        selectSinger(singer) {
+            this.$router.push({
+                path: `/singer/${singer.id}`
+            });
+            this.setSinger(singer);
+        },
         _getSingerList() {
             getSingerList()
                 .then((res) => {
@@ -45,7 +58,6 @@ export default {
                     map.hot.items.push(new Singer({
                         id: item.Fsinger_mid,
                         name: item.Fsinger_name
-
                     }));
                 }
                 const key = item.Findex;
@@ -58,7 +70,6 @@ export default {
                 map[key].items.push(new Singer({
                     id: item.Fsinger_mid,
                     name: item.Fsinger_name
-
                 }));
             });
             // 得到有序列表，处理map
@@ -86,5 +97,4 @@ export default {
     bottom: 0;
     width: 100%;
 }
-
 </style>

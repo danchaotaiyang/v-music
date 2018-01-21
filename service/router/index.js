@@ -9,4 +9,12 @@ router.get('/recommend', (req, res) => {
     res.render('index');
 });
 
+router.get('/singer', (req, res) => {
+    res.render('index');
+});
+
+router.get('/singer/:id', (req, res) => {
+    res.render('index');
+});
+
 module.exports = router;
