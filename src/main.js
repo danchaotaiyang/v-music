@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import store from './store';
 import router from './router'
+import 'babel-polyfill';
 
 import fastclick from 'fastclick';
 import VueLazyload from 'vue-lazyload';
@@ -18,4 +19,4 @@ new Vue({
     render: h => h(App)
 });
 
-import '@/assets/sass/base/_redefine.scss';
+import '@/assets/sass/layout.scss';
