@@ -31,4 +31,20 @@ router.get('/getDiscList', (req, res) => {
         });
 });
 
+router.get('/getSongUrl', (req, res) => {
+    axios
+        .get('https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg', {
+            headers: {
+                referer: 'https://y.qq.com/portal/player.html'
+            },
+            params: req.query
+        })
+        .then((response) => {
+            res.json(response.data);
+        })
+        .catch((e) => {
+            console.log(e)
+        });
+});
+
 module.exports = router;

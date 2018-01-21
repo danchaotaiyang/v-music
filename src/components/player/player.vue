@@ -48,10 +48,9 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex';
 import {prefixStyle} from '@/assets/js/dom';
+import animations from 'create-keyframe-animation';
 
 const transform = prefixStyle('transform');
-
-import animations from 'create-keyframe-animation';
 
 export default {
     computed: {

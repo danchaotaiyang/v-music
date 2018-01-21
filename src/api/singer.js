@@ -1,5 +1,6 @@
 import jsonp from '@/assets/js/jsonp';
 import {commonParams, options} from './config';
+import axios from 'axios/index';
 
 export const getSingerList = () => {
     const url = 'https://szc.y.qq.com/v8/fcg-bin/v8.fcg';
@@ -30,4 +31,29 @@ export const getSingerDetail = (singerId) => {
         singermid: singerId
     });
     return jsonp(url, data, options);
+};
+
+
+export const getSongUrl = (songId) => {
+    let url = 'http://192.168.0.108:8090/api/getSongUrl';
+    let data = Object.assign({}, commonParams, {
+        g_tk: 5381,
+        loginUin: 0,
+        hostUin: 0,
+        notice: 0,
+        platform: 'yqq',
+        needNewCode: 0,
+        cid: 205361747,
+        uin: 0,
+        songmid: songId,
+        filename: `C400${songId}.m4a`,
+        guid: 1408057560
+    });
+    return axios
+        .get(url, {
+            params: data
+        })
+        .then((res) => {
+            return res.data;
+        });
 };
