@@ -1,9 +1,24 @@
 import * as types from './mutation-types';
+import {getSongUrl} from '@/api/singer';
+import {ERR_OK} from '@/api/config';
 
 export const selectPlay = ({commit, state}, {list, index}) => {
-    commit(types.SET_SEQUENCE_LIST, list);
-    commit(types.SET_PLAY_LIST, list);
-    commit(types.SET_CURRENT_INDEX, index);
-    commit(types.SET_FULL_SCREEN, true);
-    commit(types.SET_PLAYING_STATE, true);
+    let currentSong = list[index];
+    getSongUrl(currentSong.id)
+        .then((res) => {
+            if (res.code === ERR_OK) {
+                console.log(res.data.items[0].vkey);
+                if (!res.data.items[0].vkey) {
+                    alert('歌曲地址未获取到');
+                    return;
+                }
+                currentSong.url = `http://dl.stream.qqmusic.qq.com/C400${list[index].id}.m4a?vkey=${res.data.items[0].vkey}&guid=1408057560&uin=0&fromtag=66`;
+                commit(types.SET_SEQUENCE_LIST, list);
+                commit(types.SET_PLAY_LIST, list);
+                commit(types.SET_CURRENT_INDEX, index);
+                commit(types.SET_FULL_SCREEN, true);
+                commit(types.SET_PLAYING_STATE, true);
+            }
+        });
 };
+

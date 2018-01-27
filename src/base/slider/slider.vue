@@ -35,21 +35,6 @@ export default {
             currentIndex: 0
         };
     },
-    mounted() {
-        setTimeout(() => {
-            this._setSliderWidth(true);
-            this._initSlider();
-            this._initDots();
-            if (this.autoPlay) {
-                this._autoPlay();
-            }
-        }, 20);
-        window.addEventListener('resize', () => {
-            if (!this.slider) return;
-            this._setSliderWidth();
-            this.slider.refresh();
-        });
-    },
     methods: {
         _setSliderWidth(isInit) {
             this.children = this.$refs.sliderGroup.children;
@@ -96,6 +81,21 @@ export default {
                 this.slider.next(400);
             }, this.interval);
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this._setSliderWidth(true);
+            this._initSlider();
+            this._initDots();
+            if (this.autoPlay) {
+                this._autoPlay();
+            }
+        }, 20);
+        window.addEventListener('resize', () => {
+            if (!this.slider) return;
+            this._setSliderWidth();
+            this.slider.refresh();
+        });
     },
     destroyed() {
         clearInterval(this.timer);

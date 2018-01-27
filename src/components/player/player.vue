@@ -22,9 +22,9 @@
             <div class="bottom">
                 <div class="operators">
                     <div class="icon i-left"><i class="icon-sequence"></i></div>
-                    <div class="icon i-left"><i class="icon-prev"></i></div>
+                    <div class="icon i-left" @click="prev"><i class="icon-prev"></i></div>
                     <div class="icon i-center" @click="togglePlaying"><i :class="normalPlayIcon"></i></div>
-                    <div class="icon i-right"><i class="icon-next"></i></div>
+                    <div class="icon i-right" @click="next"><i class="icon-next"></i></div>
                     <div class="icon i-right"><i class="icon icon-not-favorite"></i></div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {prefixStyle} from '@/assets/js/dom';
 import animations from 'create-keyframe-animation';
 
@@ -55,7 +55,7 @@ const transform = prefixStyle('transform');
 export default {
     computed: {
         ...mapGetters([
-            'fullScreen', 'playList', 'currentSong', 'playing'
+            'fullScreen', 'playList', 'currentIndex', 'currentSong', 'playing'
         ]),
         normalPlayIcon() {
             return this.playing ? 'icon-pause' : 'icon-play';
@@ -70,8 +70,23 @@ export default {
     methods: {
         ...mapMutations({
             setFullScreen: 'SET_FULL_SCREEN',
-            setPlayingState: 'SET_PLAYING_STATE'
+            setPlayingState: 'SET_PLAYING_STATE',
+            setCurrentIndex: 'SET_CURRENT_INDEX'
         }),
+        ...mapActions([
+            'selectPlay'
+        ]),
+        _getPosAndScale() {
+            const targetWidth = 40;
+            const paddingLeft = 40;
+            const paddingBottom = 30;
+            const paddingTop = 80;
+            const width = window.innerWidth * 0.8;
+            const scale = targetWidth / width;
+            const x = -(window.innerWidth / 2 - paddingLeft);
+            const y = window.innerHeight - paddingTop - (width / 2) - paddingBottom;
+            return {x, y, scale};
+        },
         back() {
             this.setFullScreen(false);
         },
@@ -118,16 +133,33 @@ export default {
         togglePlaying() {
             this.setPlayingState(!this.playing);
         },
-        _getPosAndScale() {
-            const targetWidth = 40;
-            const paddingLeft = 40;
-            const paddingBottom = 30;
-            const paddingTop = 80;
-            const width = window.innerWidth * 0.8;
-            const scale = targetWidth / width;
-            const x = -(window.innerWidth / 2 - paddingLeft);
-            const y = window.innerHeight - paddingTop - (width / 2) - paddingBottom;
-            return {x, y, scale};
+        prev() {
+            let index = this.currentIndex - 1;
+            if (index === -1) {
+                index = this.playList.length - 1;
+            }
+            if (!this.playing) {
+                this.togglePlaying();
+            }
+            let song = this.playList[index];
+            this.selectItem(song, index);
+        },
+        next() {
+            let index = this.currentIndex + 1;
+            if (index === this.playList.length) {
+                index = 0;
+            }
+            if (!this.playing) {
+                this.togglePlaying();
+            }
+            let song = this.playList[index];
+            this.selectItem(song, index);
+        },
+        selectItem(song, index) {
+            this.selectPlay({
+                list: this.playList,
+                index
+            });
         }
     },
     watch: {
@@ -136,10 +168,10 @@ export default {
                 this.$refs.audio.play();
             });
         },
-        playing(p) {
+        playing(status) {
             this.$nextTick(() => {
                 const audio = this.$refs.audio;
-                p ? audio.play() : audio.pause();
+                status ? audio.play() : audio.pause();
             });
         }
     }

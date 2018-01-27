@@ -13,10 +13,9 @@ Vue.use(VueLazyload, {
 });
 
 new Vue({
-    el: '#app',
     store,
     router,
     render: h => h(App)
-});
+}).$mount('#app');
 
 import '@/assets/sass/layout.scss';

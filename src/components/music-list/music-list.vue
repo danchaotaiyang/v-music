@@ -24,12 +24,12 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 import Loading from '@/base/loading/loading';
 import Scroll from '@/base/scroll/scroll';
 import SongList from '@/base/song-list/song-list';
 import {prefixStyle} from '@/assets/js/dom';
 
-import {mapActions} from 'vuex';
 const RESERVE_HEIGHT = 40;
 const transform = prefixStyle('transform');
 const backdrop = prefixStyle('backdrop-filter');
