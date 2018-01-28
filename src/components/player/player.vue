@@ -45,7 +45,7 @@
                 <p class="desc" v-html="currentSong.singer"></p>
             </div>
             <div class="control">
-                <progress-circle radius="32" :percent="percent">
+                <progress-circle :radius="radius" :percent="percent">
                     <i class="icon-mini" :class="miniPlayIcon" @click.stop.prevent="togglePlaying"></i>
                 </progress-circle>
             </div>
@@ -69,7 +69,8 @@ const transform = prefixStyle('transform');
 export default {
     data() {
         return {
-            currentTime: 0
+            currentTime: 0,
+            radius:32
         };
     },
     components: {ProgressBar, ProgressCircle},
