@@ -25,7 +25,6 @@ router.get('/getDiscList', (req, res) => {
         })
         .then((response) => {
             res.json(response.data);
-            console.log(req);
         })
         .catch((e) => {
             console.log(e)

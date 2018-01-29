@@ -12,7 +12,7 @@ export const selectPlay = ({commit, state}, {list, index}) => {
             console.log(res.data.items[0].vkey);
             commit(types.SET_SONG_READY, true);
             if (!res.data.items[0].vkey) {
-                alert('歌曲地址未获取到');
+                alert('应版权方要求，该数字专辑单独付费后即可畅享！');
                 commit(types.SET_SONG_READY, true);
                 return false;
             }
@@ -23,7 +23,6 @@ export const selectPlay = ({commit, state}, {list, index}) => {
             commit(types.SET_FULL_SCREEN, true);
             commit(types.SET_PLAYING_STATE, true);
             commit(types.SET_SONG_READY, true);
-
         });
 };
 
