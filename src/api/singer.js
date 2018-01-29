@@ -1,6 +1,7 @@
 import jsonp from '@/assets/js/jsonp';
 import {commonParams, options} from './config';
 import axios from 'axios/index';
+import {getLocalhostIP} from '@/assets/js/dom';
 
 export const getSingerList = () => {
     const url = 'https://szc.y.qq.com/v8/fcg-bin/v8.fcg';
@@ -35,7 +36,9 @@ export const getSingerDetail = (singerId) => {
 
 
 export const getSongUrl = (songId) => {
-    let url = 'http://192.168.0.108:8090/api/getSongUrl';
+    // let url = 'http://192.168.0.108:8090/api/getSongUrl';
+    // let url = `http://10.10.6.49:8090/api/getSongUrl`;
+    let url = `http://${window.ips}:8090/api/getSongUrl`;
     let data = Object.assign({}, commonParams, {
         g_tk: 5381,
         loginUin: 0,
