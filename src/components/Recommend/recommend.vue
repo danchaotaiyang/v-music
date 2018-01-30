@@ -72,7 +72,7 @@ export default {
         setTimeout(() => {
             this._getRecommend();
             this._getDiscList();
-        }, 2000);
+        }, 80);
     }
 }
 </script>

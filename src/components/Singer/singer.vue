@@ -26,7 +26,7 @@ export default {
     created() {
         setTimeout(() => {
             this._getSingerList();
-        }, 500);
+        }, 80);
     },
     methods: {
         ...mapMutations({
