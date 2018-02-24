@@ -194,7 +194,6 @@ export default {
             this.$refs.audio.play();
         },
         next() {
-            console.log('next');
             if (!this.songReady) {
                 return;
             }
@@ -207,7 +206,6 @@ export default {
                 this.togglePlaying();
             }
             let song = this.playList[index];
-            console.log(song);
             this.selectItem(song, index);
         },
         selectItem(song, index) {

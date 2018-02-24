@@ -6,7 +6,6 @@ import {shuffle} from '@/assets/js/util';
 
 export const selectPlay = ({commit, state}, {list, index}) => {
     let currentSong = list[index];
-
     getSongUrl(currentSong.id)
         .then((res) => {
             if (res.code !== ERR_OK) {
@@ -27,7 +26,6 @@ export const selectPlay = ({commit, state}, {list, index}) => {
             commit(types.SET_SONG_READY, true);
 
         });
-    console.log(state);
 };
 
 export const randomPlay = ({commit}, {list, index}) => {
