@@ -58,3 +58,15 @@ export const getLocalhostIP = () => {
         };
     })();
 };
+
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+export const shuffle = (ary) => {
+    for (let i = 0; i < ary.length; i++) {
+        let j = getRandomInt(0, i);
+        let t = ary[i];
+        ary[i] = ary[j];
+        ary[j] = t;
+    }
+    return ary;
+};

@@ -52,12 +52,13 @@
             <div class="control"><i class="icon-playlist"></i></div>
         </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
+    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="ended"></audio>
 </div>
 </template>
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {shuffle} from '@/assets/js/util';
 import ProgressBar from '@/base/progress-bar/progress-bar';
 import ProgressCircle from '@/base/progress-circle/progress-circle';
 import {playMode} from '@/assets/js/config';
@@ -76,7 +77,7 @@ export default {
     components: {ProgressBar, ProgressCircle},
     computed: {
         ...mapGetters([
-            'fullScreen', 'playList', 'currentIndex', 'currentSong', 'playing', 'songReady', 'mode'
+            'fullScreen', 'playList', 'currentIndex', 'currentSong', 'playing', 'songReady', 'mode', 'sequenceList'
         ]),
         normalPlayIcon() {
             return this.playing ? 'icon-pause' : 'icon-play';
@@ -103,7 +104,8 @@ export default {
             setPlayingState: 'SET_PLAYING_STATE',
             setCurrentIndex: 'SET_CURRENT_INDEX',
             setSongReady: 'SET_SONG_READY',
-            setPlayMode: 'SET_PLAY_MODE'
+            setPlayMode: 'SET_PLAY_MODE',
+            setPlayList: 'SET_PLAY_LIST'
         }),
         ...mapActions([
             'selectPlay'
@@ -169,6 +171,7 @@ export default {
             if (!this.songReady) {
                 return;
             }
+            this.setSongReady(false);
             let index = this.currentIndex - 1;
             if (index === -1) {
                 index = this.playList.length - 1;
@@ -178,12 +181,24 @@ export default {
             }
             let song = this.playList[index];
             this.selectItem(song, index);
-            this.setSongReady(false);
+        },
+        ended() {
+            if (this.mode === playMode.loop) {
+                this.loop();
+            } else {
+                this.next();
+            }
+        },
+        loop() {
+            this.$refs.audio.currentTime = 0;
+            this.$refs.audio.play();
         },
         next() {
+            console.log('next');
             if (!this.songReady) {
                 return;
             }
+            this.setSongReady(false);
             let index = this.currentIndex + 1;
             if (index === this.playList.length) {
                 index = 0;
@@ -192,8 +207,8 @@ export default {
                 this.togglePlaying();
             }
             let song = this.playList[index];
+            console.log(song);
             this.selectItem(song, index);
-            this.setSongReady(false);
         },
         selectItem(song, index) {
             this.selectPlay({
@@ -210,6 +225,18 @@ export default {
         changeMode() {
             const mode = (this.mode + 1) % 3;
             this.setPlayMode(mode);
+            let list = null;
+            if (mode === playMode.random) {
+                list = shuffle(this.sequenceList);
+            } else {
+                list = this.sequenceList;
+            }
+            this.resetCurrentIndex(list);
+            this.setPlayList(list);
+        },
+        resetCurrentIndex(list) {
+            let index = list.findIndex((item) => item.id === this.currentSong.id);
+            this.setCurrentIndex(index);
         },
         updateTime(e) {
             this.currentTime = e.target.currentTime;
@@ -236,7 +263,10 @@ export default {
         }
     },
     watch: {
-        currentSong() {
+        currentSong(ns, os) {
+            if (ns.id === os.id) {
+                return;
+            }
             this.$nextTick(() => {
                 this.$refs.audio.play();
             });
