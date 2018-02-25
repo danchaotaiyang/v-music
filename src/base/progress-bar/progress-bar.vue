@@ -50,7 +50,7 @@ export default {
         },
         progressClick(e) {
             const rect = this.$refs.progressBar.getBoundingClientRect();
-            const offsetWidth = e.pageX - rect.left;
+            const offsetWidth = e.pageX - rect.left - this.$refs.progressBtn.clientWidth / 2 + 7;
             this._offset(offsetWidth);
             // this._offset(e.offsetX);
             this._triggerPercent();

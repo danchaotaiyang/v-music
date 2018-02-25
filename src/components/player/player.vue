@@ -18,6 +18,13 @@
                         <div class="cd" :class="cdCls"><img alt="" class="image" :src="currentSong.image"></div>
                     </div>
                 </div>
+                <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
+                    <div class="lyric-wrapper">
+                        <div v-if="currentLyric">
+                            <p :class="{'current': currentLineNum === index}" ref="lyricLine" class="text" v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
+                        </div>
+                    </div>
+                </scroll>
             </div>
             <div class="bottom">
                 <div class="progress-wrapper">
@@ -64,17 +71,20 @@ import ProgressCircle from '@/base/progress-circle/progress-circle';
 import {playMode} from '@/assets/js/config';
 import {prefixStyle} from '@/assets/js/dom';
 import animations from 'create-keyframe-animation';
-
+import Lyric from 'lyric-parser';
 const transform = prefixStyle('transform');
+import Scroll from '@/base/scroll/scroll';
 
 export default {
     data() {
         return {
             currentTime: 0,
-            radius:32
+            radius:32,
+            currentLyric: null,
+            currentLineNum: 0
         };
     },
-    components: {ProgressBar, ProgressCircle},
+    components: {ProgressBar, ProgressCircle, Scroll},
     computed: {
         ...mapGetters([
             'fullScreen', 'playList', 'currentIndex', 'currentSong', 'playing', 'songReady', 'mode', 'sequenceList'
@@ -245,6 +255,25 @@ export default {
             const second = this._pad(interval % 60);
             return `${minute}:${second}`;
         },
+        getLyric() {
+            this.currentSong.getLyric()
+                .then((lyric) => {
+                    this.currentLyric = new Lyric(lyric, this.handleLyric);
+                    if (this.playing) {
+                        this.currentLyric.play();
+                    }
+                    console.log(this.currentLyric);
+                });
+        },
+        handleLyric({lineNum, txt}) {
+            this.currentLineNum = lineNum;
+            if (lineNum > 5) {
+                let lineEl = this.$refs.lyricLine[lineNum - 5];
+                this.$refs.lyricList.scrollToElement(lineEl, 1000);
+            } else {
+                this.$refs.lyricList.scrollTo(0, 0, 1000);
+            }
+        },
         _pad(num, n = 2) {
             let len = num.toString().length;
             while (len < n) {
@@ -266,6 +295,7 @@ export default {
                 return;
             }
             this.$nextTick(() => {
+                this.getLyric();
                 this.$refs.audio.play();
             });
         },

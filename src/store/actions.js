@@ -4,6 +4,10 @@ import {ERR_OK} from '@/api/config';
 import {playMode} from '@/assets/js/config';
 import {shuffle} from '@/assets/js/util';
 
+const findIndex =  (list, song) => {
+    return list.findIndex(i => i.id === song.id);
+};
+
 export const selectPlay = ({commit, state}, {list, index}) => {
     let currentSong = list[index];
     getSongUrl(currentSong.id)
@@ -19,12 +23,17 @@ export const selectPlay = ({commit, state}, {list, index}) => {
             }
             currentSong.url = `http://dl.stream.qqmusic.qq.com/C400${currentSong.id}.m4a?vkey=${res.data.items[0].vkey}&guid=1408057560&uin=0&fromtag=66`;
             commit(types.SET_SEQUENCE_LIST, list);
-            commit(types.SET_PLAY_LIST, list);
+            if (state.mode === playMode.random) {
+                let randomList = shuffle(list);
+                commit(types.SET_PLAY_LIST, randomList);
+                index = findIndex(randomList, list[index]);
+            } else {
+                commit(types.SET_PLAY_LIST, list);
+            }
             commit(types.SET_CURRENT_INDEX, index);
             commit(types.SET_FULL_SCREEN, true);
             commit(types.SET_PLAYING_STATE, true);
             commit(types.SET_SONG_READY, true);
-
         });
 };
 

@@ -62,11 +62,12 @@ export const getLocalhostIP = () => {
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 export const shuffle = (ary) => {
-    for (let i = 0; i < ary.length; i++) {
+    let _ary = [...ary];
+    for (let i = 0; i < _ary.length; i++) {
         let j = getRandomInt(0, i);
-        let t = ary[i];
-        ary[i] = ary[j];
-        ary[j] = t;
+        let t = _ary[i];
+        _ary[i] = _ary[j];
+        _ary[j] = t;
     }
-    return ary;
+    return _ary;
 };
