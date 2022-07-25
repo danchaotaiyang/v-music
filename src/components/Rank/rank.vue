@@ -2,13 +2,18 @@
 <div class="ranking">
     排行
 
-
+    {{ test }}
 </div>
 </template>
 
 <script>
 export default {
-    name: "rank"
+    name: "rank",
+    data() {
+        return {
+            test: Math.random()
+        };
+    }
 }
 </script>
 
